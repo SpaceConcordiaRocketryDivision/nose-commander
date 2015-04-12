@@ -1,6 +1,6 @@
 #include <SoftwareSerial.h>
 
-#include <Adafruit_GPS.h>
+#include <Adafruit_GPS. h>
 
 
 #include "GpsSensor.h"
@@ -16,19 +16,21 @@ void setup()
 
 void loop()
 {
-  //Serial.println("Test");
   //Get and transmit GPS data
   gpsSensor.GetData(array);
   Serial.write('0xFF');
-  Serial.print(" N");
+  Serial.print(":N:0:GG");
   for(int i=0; i<9; i++)
   {
-    Serial.print(" ");
+    Serial.print(":");
     Serial.print(array[i]);
   }
+  Serial.print(":");
   Serial.write('0XFF');
   Serial.write('/r');
+  Serial.println();
   
   //Get and retransmit data from XBEE
-  Serial.println(Serial.read());
+  while(Serial.available()>0)
+    Serial.print(Serial.read());
 }
